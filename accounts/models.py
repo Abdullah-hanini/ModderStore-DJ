@@ -8,7 +8,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phonenumber = models.CharField(max_length=15)
     email =models.EmailField()
-
+    cliq= models.CharField(max_length=30)
     def __str__(self):
         return self.user.username
 
