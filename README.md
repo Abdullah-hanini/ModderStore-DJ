@@ -1,3 +1,3 @@
 # ModderStore
 
-Gaming store website made by Django
+Gaming store website made with Django
