@@ -1,0 +1,33 @@
+{% extends 'base_generic.html' %}
+{% block title %}{{game.title}} - Modder Games{% endblock %}
+{% block content %}
+    <section class="py-5">
+      <div class="container py-5">
+        <div data-reflow-type="product" data-bss-dynamic-product data-bss-dynamic-product-param="product" data-reflow-shoppingcart-url="shopping-cart.html">
+          <div class="reflow-product">
+              <div class="ref-media">
+                  <div class="ref-preview"><img class="ref-image active" src="{{game.img.url}}" data-reflow-preview-type="image" /></div>
+              </div>
+              <div class="ref-product-data">
+                  <h2 class="ref-name">{{game.title}}</h2>
+                  <div class="ref-categories"><span class="ref-category">{{game.category}}</span></div><strong class="ref-price ref-on-sale">{{game.price}} JD</strong><span data-reflow-type="add-to-cart" data-reflow-shoppingcart-url="shopping-cart.html" data-reflow-addtocart-text data-reflow-product="589605485" data-reflow-variant="199976733_s">
+                      <div class="reflow-add-to-cart ref-product-controls">
+                          <div class="ref-variant"><label><span>Size</span><select class="ref-form-control ref-field-variants" name="variant-state" required>
+                                      <option value="199976733_s">S</option>
+                                      <option value="199976733_m">M</option>
+                                      <option value="199976733_l" disabled>L</option>
+                                  </select></label></div><span data-reflow-variant="199976733_s" data-reflow-product="589605485" data-reflow-max-qty="999" data-reflow-quantity="1">
+                              <div class="ref-quantity-widget">
+                                  <div class="ref-decrease"><span></span></div><input type="text" value="1" />
+                                  <div class="ref-increase"><span></span></div>
+                              </div>
+                          </span><a class="ref-button" href="#">Add to Cart</a>
+                      </div>
+                  </span>
+                  <div class="ref-description">{{game.discription}}</div>
+              </div>
+          </div>
+      </div>
+      </div>
+    </section>
+    {% endblock content %}

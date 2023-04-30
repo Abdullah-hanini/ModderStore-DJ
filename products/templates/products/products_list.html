@@ -1,0 +1,57 @@
+{% extends 'base_generic.html' %}
+{% block title %}All Games - Modder Games{% endblock %}
+{% block content %}
+
+    <section class="py-5">
+      <div class="container py-5">
+        <div class="row mb-4 mb-lg-5">
+          <div class="col-md-8 col-xl-6 text-center mx-auto">
+            <h2 class="fw-bold">All Games</h2>
+          </div>
+        </div>
+        <div class="row mx-auto">
+          <div class="col">
+            <div class="container">
+              <div class="row">
+                {% for game in games %}
+                <div class="col-sm-6 col-lg-4 col-xl-3 mb-4">
+                  <div class="card" style="max-width: 250px;">
+                  <a class="ref-product" href="/product/{{game.slug}}">
+                    <img src="{{ game.img.url }}" class="card-img-top" alt="{{ game.title }}" style="max-height: 300px;">
+                    <div class="ref-product-info">
+                      <h5  class="ref-name">{{ game.title }}</h5>
+                      <p class="ref-excerpt">{{ game.Sdiscription }}</p>
+                       <strong class="ref-price ref-on-sale">{{ game.price }} JD</strong>
+                      <p> </p>
+                      <div class="ref-addons"><a class="ref-button preview-toggle" href="#">Add to Cart</a></div>
+                                        </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% if games.has_other_pages %}
+      <nav>
+        <ul class="pagination d-flex justify-content-center">
+          {% if games.has_previous %}
+            <li class="page-item"><a class="page-link" aria-label="Previous" href="?page={{games.previous_page_number}}"><span aria-hidden="true">«</span></a></li>
+          {% endif %}
+
+          {% for i in games.paginator.page_range %}
+            <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+          {% endfor %}
+
+            {% if games.has_next %}
+
+            <li class="page-item"><a class="page-link" aria-label="Next" href="?page={{games.next_page_number}}"><span aria-hidden="flase">»</span></a></li>
+            {% endif %}
+
+        </ul>
+    </nav>
+    {% endif %}
+
+    </section>
+    {% endblock content %}
