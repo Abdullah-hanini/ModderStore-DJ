@@ -1,0 +1,63 @@
+
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block title %}Profile - Modder Games{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+    <div class="container py-5">
+      <div class="row mb-4 mb-lg-5">
+        <div class="col-md-8 col-xl-6 text-center mx-auto">
+          <h2 class="fw-bold">My Account</h2>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="text-center">
+            <img
+              class="rounded mb-3 fit-cover"
+              width="150"
+              height="150"
+              src="{% static 'assets/images/8.jpg' %}"
+            />
+            <h5 class="fw-bold mb-0"><strong>{{profile}}</strong></h5>
+            <p class="text-muted mb-2" style="text-align: center">Email : {{profile.user.email}}</p>
+            <p class="text-muted mb-2" style="text-align: center">
+              Phone number : {{profile.phonenumber}}
+            </p>
+            <p class="text-muted mb-2" style="text-align: center">
+              Qlic Alias :
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Order Id</th>
+                  <th>order details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Cell 1</td>
+                  <td>Cell 2</td>
+                </tr>
+                <tr>
+                  <td>Cell 3</td>
+                  <td>Cell 4</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% endblock %}
