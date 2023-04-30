@@ -63,7 +63,7 @@
               </br>
                 <input type="hidden" name="next" value="{{ next }}">
               </form>
-              <p><a href="/accounts/signup">New Account ?</a></p>
+              <p><a href="{% url 'accounts:signup' %}">New Account ?</a></p>
               <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
             </div>
           </div>

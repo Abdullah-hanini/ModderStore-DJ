@@ -30,9 +30,9 @@
               Phone number : {{profile.phonenumber}}
             </p>
             <p class="text-muted mb-2" style="text-align: center">
-              Cliq Alias :
+              Cliq Alias : {{profile.cliq}}
             </p>
-            <a href="edit/" class="btn btn-primary">Edit Profile</a>
+            <a href="{% url 'accounts:profile_edit' %}" class="btn btn-primary">Edit Profile</a>
           </div>
         </div>
         <div class="col-md-6">

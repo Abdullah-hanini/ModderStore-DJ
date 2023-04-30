@@ -35,30 +35,24 @@
                   ></path>
                 </svg>
               </div>
-
-          
-            
               <form method="post" novalidate>
                 {% csrf_token %}
-                <!-- UserForm fields -->
                 <div class="mb-3">
                     <label for="{{ user_form.email.id_for_label }}" class="form-label">Email</label>
                     <input type="email" class="form-control" id="{{ user_form.email.id_for_label }}" name="{{ user_form.email.html_name }}" value="{{ user_form.email.value|default:'' }}" required>
                     {{ user_form.email.errors }}
                 </div>
         
-                <!-- ProfileForm fields -->
                 <div class="mb-3">
                     <label for="{{ profile_form.phonenumber.id_for_label }}" class="form-label">Phone Number</label>
                     <input type="text" class="form-control" id="{{ profile_form.phonenumber.id_for_label }}" name="{{ profile_form.phonenumber.html_name }}" value="{{ profile_form.phonenumber.value|default:'' }}" required>
                     {{ profile_form.phonenumber.errors }}
                 </div>
                 <div class="mb-3">
-                    <label for="{{ profile_form.cliq.id_for_label }}" class="form-label">Cliq</label>
+                    <label for="{{ profile_form.cliq.id_for_label }}" class="form-label">Cliq Alias</label>
                     <input type="text" class="form-control" id="{{ profile_form.cliq.id_for_label }}" name="{{ profile_form.cliq.html_name }}" value="{{ profile_form.cliq.value|default:'' }}" required>
                     {{ profile_form.cliq.errors }}
                 </div>
-        
                 <button type="submit" class="btn btn-primary">Save Changes</button>
             </form>
             </div>
