@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render ,get_object_or_404 , redirect
 from django.core.paginator import Paginator
 from .models import Products
 from .filters import GamesFilter
@@ -11,7 +11,7 @@ def products_list(request):
     myfilter = GamesFilter(request.GET,queryset=products_list)
     products_list = myfilter.qs
 
-    paginator = Paginator(products_list, 12)  # Show 25 contacts per page.
+    paginator = Paginator(products_list, 12)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     context = {'games':page_obj ,'myfilter':myfilter}
@@ -19,7 +19,42 @@ def products_list(request):
 
     return render(request,'products/products_list.html',context)
 
-def product_page(request , slug):
-    product_page = Products.objects.get(slug=slug)
-    context = {'game':product_page}
-    return render(request,'products/product_page.html',context)
+def product_page(request, slug):
+    product = get_object_or_404(Products, slug=slug)
+    context = {'game': product}
+    return render(request, 'products/product_page.html', context)
+
+
+def cart_page(request):
+    cart = request.session.get('cart', {})
+    cart_items = []
+    total = 0
+    for product_id, quantity in cart.items():
+        product = get_object_or_404(Products, id=product_id)
+        total += product.price * quantity
+        cart_items.append({'product': product, 'quantity': quantity})
+    context = {'cart_items': cart_items, 'total': total}
+    return render(request, 'products/cart_page.html', context)
+
+
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Products, id=product_id)
+    cart = request.session.get('cart', {})
+    cart[product_id] = cart.get(product_id, 0) + 1
+    request.session['cart'] = cart
+    return redirect('products:cart_page')
+
+def remove_from_cart(request, product_id):
+    cart = request.session.get('cart', {})
+    if product_id in cart:
+        del cart[product_id]
+        request.session['cart'] = cart
+    return redirect('cart')
+
+def update_cart(request, product_id):
+    quantity = request.POST.get('quantity')
+    cart = request.session.get('cart', {})
+    if product_id in cart and quantity > 0:
+        cart[product_id] = int(quantity)
+        request.session['cart'] = cart
+    return redirect('cart')

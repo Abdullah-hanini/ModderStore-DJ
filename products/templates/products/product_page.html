@@ -21,7 +21,7 @@
                                   <div class="ref-decrease"><span></span></div><input type="text" value="1" />
                                   <div class="ref-increase"><span></span></div>
                               </div>
-                          </span><a class="ref-button" href="#">Add to Cart</a>
+                          </span><a class="ref-button" href="{% url 'products:add_to_cart' product_id=game.id %}">Add to Cart</a>
                       </div>
                   </span>
                   <div class="ref-description">{{game.discription}}</div>

@@ -1,0 +1,31 @@
+{% extends "base_generic.html" %}
+{% load math_filters %}
+
+{% block content %}
+    <h1>Cart</h1>
+    {% if cart_items %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.product.price }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.product.price|multiply:item.quantity }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h3>Total: {{ total }}</h3>
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
+{% endblock %}
