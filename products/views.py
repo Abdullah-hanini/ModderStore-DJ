@@ -2,6 +2,7 @@ from django.shortcuts import render ,get_object_or_404 , redirect
 from django.core.paginator import Paginator
 from .models import Products
 from .filters import GamesFilter
+from django.views.decorators.http import require_POST
 
 
 
@@ -37,19 +38,27 @@ def cart_page(request):
     return render(request, 'products/cart_page.html', context)
 
 
-def add_to_cart(request, product_id):
-    product = get_object_or_404(Products, id=product_id)
-    cart = request.session.get('cart', {})
-    cart[product_id] = cart.get(product_id, 0) + 1
-    request.session['cart'] = cart
-    return redirect('products:cart_page')
+@require_POST
+def add_to_cart(request):
+    product_id = request.POST.get('product_id')
+    quantity = int(request.POST.get('quantity', 1))
+
+    if product_id:
+        product = Products.objects.get(pk=product_id)
+        cart = request.session.get('cart', {})
+        cart[product_id] = cart.get(product_id, 0) + quantity
+        request.session['cart'] = cart
+
+    return redirect('products:product_list')
 
 def remove_from_cart(request, product_id):
     cart = request.session.get('cart', {})
+    a = int (product_id)
     if product_id in cart:
-        del cart[product_id]
+
+        del cart [a]
         request.session['cart'] = cart
-    return redirect('cart')
+    return redirect('products:cart_page')
 
 def update_cart(request, product_id):
     quantity = request.POST.get('quantity')

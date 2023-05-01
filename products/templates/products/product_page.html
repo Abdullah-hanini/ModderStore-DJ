@@ -17,11 +17,22 @@
                                       <option value="199976733_m">M</option>
                                       <option value="199976733_l" disabled>L</option>
                                   </select></label></div><span data-reflow-variant="199976733_s" data-reflow-product="589605485" data-reflow-max-qty="999" data-reflow-quantity="1">
-                              <div class="ref-quantity-widget">
-                                  <div class="ref-decrease"><span></span></div><input type="text" value="1" />
-                                  <div class="ref-increase"><span></span></div>
-                              </div>
-                          </span><a class="ref-button" href="{% url 'products:add_to_cart' product_id=game.id %}">Add to Cart</a>
+
+                                    <form method="post" action="{% url 'products:add_to_cart' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="product_id" value="{{ game.id }}">
+                                      
+                                        <div class="ref-quantity-widget">
+                                          <div class="ref-decrease"><span></span></div>
+                                          <input type="text" name="quantity" value="1" />
+                                          <div class="ref-increase"><span></span></div>
+                                        </div>
+                                      
+                                        <button type="submit" class="btn btn-primary">Add to cart</button>
+                                      </form>
+                                      
+                          
+                        
                       </div>
                   </span>
                   <div class="ref-description">{{game.discription}}</div>
@@ -30,4 +41,24 @@
       </div>
       </div>
     </section>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          const decreaseBtn = document.querySelector(".ref-decrease");
+          const increaseBtn = document.querySelector(".ref-increase");
+          const quantityInput = document.querySelector("input[name='quantity']");
+        
+          decreaseBtn.addEventListener("click", function() {
+            let currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+              quantityInput.value = currentValue - 1;
+            }
+          });
+        
+          increaseBtn.addEventListener("click", function() {
+            let currentValue = parseInt(quantityInput.value);
+            quantityInput.value = currentValue + 1;
+          });
+        });
+        </script>
+        
     {% endblock content %}
