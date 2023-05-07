@@ -82,5 +82,5 @@ def checkout(request):
     for product in products:
         quantity = cart[str(product.id)]
         OrderItem.objects.create(order=order, product=product, quantity=quantity)
-    del request.session['cart']
+    request.session['cart'] = {}
     return render(request, 'products/checkout_complete.html')

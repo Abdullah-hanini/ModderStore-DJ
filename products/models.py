@@ -44,7 +44,7 @@ class Category (models.Model):
         return self.name   
 
 class Orders(models.Model) :
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     products = models.ManyToManyField(Products, through='OrderItem')
     total= models.DecimalField(max_digits=8, decimal_places=2)
     ostatus = models.CharField(max_length=50,choices=status,default='Payment Pending')
