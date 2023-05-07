@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
@@ -5,14 +6,14 @@ from django.contrib.auth.models import User
 
 
 
-'''
-Editions = (
-    ('Standard Edtion','Standard Edtion'),
-    ('Deluxe Edtion','Deluxe Edtion'),
-    ('Ultimate Edtion','Ultimate Edtion'),
 
+status = (
+    ('Payment Pending','Payment Pending'),
+    ('Payment Canceled','Payment Canceled'),
+    ('Processing','Processing'),
+    ('Completed','Completed'),
 )
-'''
+
 
 def imgup (instance,fname) :
     imagename , extension = fname.split(".")
@@ -44,3 +45,14 @@ class Category (models.Model):
 
 class Orders(models.Model) :
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    products = models.ManyToManyField(Products, through='OrderItem')
+    total= models.DecimalField(max_digits=8, decimal_places=2)
+    ostatus = models.CharField(max_length=50,choices=status,default='Payment Pending')
+    pdiscrption = models.TextField(max_length=100000)
+ 
+    
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Orders, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)

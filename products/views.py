@@ -1,6 +1,7 @@
 from django.shortcuts import render ,get_object_or_404 , redirect
 from django.core.paginator import Paginator
-from .models import Products
+from .models import Products , Orders , OrderItem
+from django.contrib.auth.decorators import login_required
 from .filters import GamesFilter
 from django.views.decorators.http import require_POST
 
@@ -69,3 +70,17 @@ def update_cart(request, product_id):
     return redirect('cart')
     
 
+@login_required
+def checkout(request):
+    cart = request.session.get('cart', {})
+    products = Products.objects.filter(id__in=cart.keys())
+    total = 0
+    for product in products:
+        quantity = cart[str(product.id)]
+        total += product.price * quantity
+    order = Orders.objects.create(user=request.user, total=total, pdiscrption='Order placed through website.')
+    for product in products:
+        quantity = cart[str(product.id)]
+        OrderItem.objects.create(order=order, product=product, quantity=quantity)
+    del request.session['cart']
+    return render(request, 'products/checkout_complete.html')
