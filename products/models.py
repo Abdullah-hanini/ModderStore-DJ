@@ -27,6 +27,7 @@ class Products(models.Model):
     price = models.FloatField(max_length=40)
     stock = models.IntegerField(default=1)
     category = models.ForeignKey('Category',on_delete=models.CASCADE)
+    variants = models.ManyToManyField('ProductVariant')
     slug = models.SlugField(blank=True, null=True)
 
     def save(self,*args,**kwargs):
@@ -36,7 +37,12 @@ class Products(models.Model):
     def __str__(self):
         return self.title
 
+class ProductVariant(models.Model):
+    name = models.CharField(max_length=100)
+    value = models.CharField(max_length=100)
 
+    def __str__(self):
+        return f"{self.name}: {self.value}"
 class Category (models.Model):
     name = models.CharField(max_length=30)
 
