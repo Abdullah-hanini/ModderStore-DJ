@@ -49,7 +49,8 @@ class Orders(models.Model) :
     total= models.DecimalField(max_digits=8, decimal_places=2)
     ostatus = models.CharField(max_length=50,choices=status,default='Payment Pending')
     pdiscrption = models.TextField(max_length=100000)
- 
+    created_at = models.DateTimeField(auto_now_add=True)
+
     
 
 class OrderItem(models.Model):

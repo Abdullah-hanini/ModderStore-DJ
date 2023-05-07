@@ -4,7 +4,7 @@ from .models import Products , Orders , OrderItem
 from django.contrib.auth.decorators import login_required
 from .filters import GamesFilter
 from django.views.decorators.http import require_POST
-
+import datetime
 
 
 def products_list(request):
@@ -54,18 +54,22 @@ def add_to_cart(request):
 
 def remove_from_cart(request, product_id):
     cart = request.session.get('cart', {})
-    a = int (product_id)
-    if product_id in cart:
-
-        del cart [a]
+    a = str(product_id)
+    if a in cart:
+        if cart[a] > 1:
+            cart[a] -= 1
+        else:
+            del cart[a]
         request.session['cart'] = cart
     return redirect('products:cart_page')
+
 
 def update_cart(request, product_id):
     quantity = request.POST.get('quantity')
     cart = request.session.get('cart', {})
-    if product_id in cart and quantity > 0:
-        cart[product_id] = int(quantity)
+    stproduct_id = str(product_id)
+    if stproduct_id in cart and quantity > 0:
+        cart[stproduct_id] = int(quantity)
         request.session['cart'] = cart
     return redirect('cart')
     
@@ -82,5 +86,6 @@ def checkout(request):
     for product in products:
         quantity = cart[str(product.id)]
         OrderItem.objects.create(order=order, product=product, quantity=quantity)
-    request.session['cart'] = {}
+        
+    request.session.flush()
     return render(request, 'products/checkout_complete.html')
