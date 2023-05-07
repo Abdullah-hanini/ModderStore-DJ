@@ -48,50 +48,24 @@
                                           </div>
                                           <div class="ref-product-remove">
                                             <script>
-                                                document.addEventListener('DOMContentLoaded', function () {
-                                                    // Listen for clicks on the decrease and increase buttons
-                                                    document.querySelectorAll('.ref-decrease, .ref-increase').forEach(function (button) {
-                                                      button.addEventListener('click', function (event) {
-                                                        const input = event.target.closest('.ref-quantity-widget').querySelector('input[type="text"]');
-                                                        let quantity = parseInt(input.value);
-                                                  
-                                                        if (event.target.closest('.ref-decrease')) {
-                                                          quantity = Math.max(1, quantity - 1);
-                                                        } else {
-                                                          quantity = quantity + 1;
-                                                        }
-                                                  
-                                                        input.value = quantity;
-                                                  
-                                                        // Update the cart item quantity in your backend
-                                                        // You can use an AJAX request to call your API
-                                                        const productId = event.target.closest('.ref-product').dataset.id;
-                                                        updateCartItemQuantity(productId, quantity);
-                                                      });
-                                                    });
-                                                  
-                                                    // Listen for clicks on the remove buttons
-                                                    document.querySelectorAll('.ref-product-remove').forEach(function (button) {
-                                                      button.addEventListener('click', function (event) {
-                                                        // Remove the cart item from your backend
-                                                        // You can use an AJAX request to call your API
-                                                        const productId = event.target.closest('.ref-product').dataset.id;
-                                                        removeCartItem(productId);
-                                                      });
-                                                    });
+                                              document.addEventListener('DOMContentLoaded', function () {
+                                                // Listen for clicks on the decrease and increase buttons
+                                                document.querySelectorAll('.ref-decrease, .ref-increase').forEach(function (button) {
+                                                  button.addEventListener('click', function (event) {
+                                                    if (event.target.closest('.ref-decrease')) {
+                                                      // Open Facebook when the decrease button is clicked
+                                                      
+                                                      window.location.href = '{% url 'products:update_cart_d' item.product.id %}';
+                                                    } else {
+                                                      // Open Google when the increase button is clicked
+                                                      window.location.href = '{% url 'products:update_cart_i' item.product.id %}';
+                                                    }
                                                   });
-                                                  
-                                                  function updateCartItemQuantity(productId, quantity) {
-                                                    // Implement an AJAX request to update the cart item quantity in your backend
-                                                    console.log(`Update product ${productId} with quantity ${quantity}`);
-                                                  }
-                                                  
-                                                  function removeCartItem(productId) {
-                                                    // Implement an AJAX request to remove the cart item from your backend
-                                                    console.log(`Remove product ${productId}`);
-                                                  }
-                                                  
+                                                });
+                                              });
                                             </script>
+                                            
+                                          
                                           </div>
                                         </div>
                                       </div>

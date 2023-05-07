@@ -56,23 +56,29 @@ def remove_from_cart(request, product_id):
     cart = request.session.get('cart', {})
     a = str(product_id)
     if a in cart:
+        del cart[a]
+        request.session['cart'] = cart
+    return redirect('products:cart_page')
+
+
+def aupdate_cart(request, product_id):
+    cart = request.session.get('cart', {})
+    a = str(product_id)
+    if a in cart:
+        cart[a] += 1
+        request.session['cart'] = cart
+    return redirect('products:cart_page')
+
+def bupdate_cart(request, product_id):
+    cart = request.session.get('cart', {})
+    a = str(product_id)
+    if a in cart:
         if cart[a] > 1:
             cart[a] -= 1
         else:
             del cart[a]
         request.session['cart'] = cart
     return redirect('products:cart_page')
-
-
-def update_cart(request, product_id):
-    quantity = request.POST.get('quantity')
-    cart = request.session.get('cart', {})
-    stproduct_id = str(product_id)
-    if stproduct_id in cart and quantity > 0:
-        cart[stproduct_id] = int(quantity)
-        request.session['cart'] = cart
-    return redirect('cart')
-    
 
 @login_required
 def checkout(request):
