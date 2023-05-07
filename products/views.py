@@ -69,25 +69,3 @@ def update_cart(request, product_id):
     return redirect('cart')
     
 
-def checkout(request):
-    cart = request.session.get('cart', {})
-    cart_items = []
-    total = 0
-    for product_id, quantity in cart.items():
-        product = get_object_or_404(Products, id=product_id)
-        cart_items.append({
-            'product': product,
-            'quantity': quantity,
-            'subtotal': product.price * quantity
-        })
-        total += product.price * quantity
-    order = Order.objects.create(total=total)
-    for item in cart_items:
-        OrderItem.objects.create(
-            order=order,
-            product=item['product'],
-            quantity=item['quantity'],
-            subtotal=item['subtotal']
-        )
-    del request.session['cart']
-    return render(request, 'products/checkout.html', {'order': order})
