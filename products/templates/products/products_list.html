@@ -14,13 +14,12 @@
             <div class="container">
               <div class="row">
                 {% for game in games %}
-                <div class="col-sm-6 col-lg-4 col-xl-3 mb-4">
+                <div class="col-sm-6 col-lg-4 col-xl-3 mb-4" style="text-align: center;">
                   <div class="card" style="max-width: 250px;">
                   <a class="ref-product" href="/product/{{game.slug}}">
                     <img src="{{ game.img.url }}" class="card-img-top" alt="{{ game.title }}" style="max-height: 300px;">
                     <div class="ref-product-info">
-                      <h5  class="ref-name">{{ game.title }}</h5>
-                      <p class="ref-excerpt">{{ game.Sdiscription }}</p>
+                      <h5  class="ref-name" style="background-color: white; border-bottom-left-radius: var(--bs-card-inner-border-radius); border-bottom-right-radius: var(--bs-card-inner-border-radius); font-size: 1.45rem; color: black;">{{ game.title }}</h5>
                        <strong class="ref-price ref-on-sale">{{ game.price }} JD</strong>
                       <p> </p>
                       <div class="ref-addons"><a class="ref-button preview-toggle" href="#">Add to Cart</a></div>

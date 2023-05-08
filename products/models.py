@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 
-
+from accounts.models import Profile
 
 
 
@@ -53,6 +53,9 @@ class Category (models.Model):
 
 class Orders(models.Model) :
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    alias = models.CharField(max_length=100)
+    email = models.EmailField()
+    phonen = models.CharField(max_length=15)
     products = models.ManyToManyField(Products, through='OrderItem')
     total= models.DecimalField(max_digits=8, decimal_places=2)
     ostatus = models.CharField(max_length=50,choices=status,default='Payment Pending')

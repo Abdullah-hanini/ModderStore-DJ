@@ -45,3 +45,4 @@ def profile_edit(request):
             profile_form = ProfileForm(instance=request.user.profile)
             
         return render(request,'accounts/profile_edit.html',{'user_form':user_form,'profile_form':profile_form})
+    
