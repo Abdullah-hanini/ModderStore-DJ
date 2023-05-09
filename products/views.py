@@ -25,6 +25,7 @@ def products_list(request):
 
 def product_page(request, slug):
     product = get_object_or_404(Products, slug=slug)
+    
     context = {'game': product}
     return render(request, 'products/product_page.html', context)
 

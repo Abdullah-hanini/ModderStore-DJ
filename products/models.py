@@ -2,6 +2,7 @@ import datetime
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
+from django.db.models import Min
 
 from accounts.models import Profile
 
