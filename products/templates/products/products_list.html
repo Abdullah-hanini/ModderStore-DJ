@@ -22,7 +22,18 @@
                       <h5  class="ref-name" style="background-color: white; border-bottom-left-radius: var(--bs-card-inner-border-radius); border-bottom-right-radius: var(--bs-card-inner-border-radius); font-size: 1.45rem; color: black;">{{ game.title }}</h5>
                        <strong class="ref-price ref-on-sale">{{ game.price }} JD</strong>
                       <p> </p>
-                      <div class="ref-addons"><a class="ref-button preview-toggle" href="#">Add to Cart</a></div>
+                      
+                      <div class="ref-addons">
+                        <form id="add-to-cart-form" style="display: none;" method="POST" action="{% url 'products:add_to_cart' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="product-id-field" name="product_id">
+                            <input type="hidden" name="quantity" value="1">
+                        </form>
+                        <a class="ref-button preview-toggle" href="#" data-product-id="{{ game.id }}">Add to Cart</a>
+                    </div>
+                    
+                    
+                    
                                         </div>
                   </div>
                 </div>
@@ -54,4 +65,21 @@
     {% endif %}
 
     </section>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var addToCartButtons = document.querySelectorAll('.ref-button');
+        var addToCartForm = document.getElementById('add-to-cart-form');
+        var productIdField = document.getElementById('product-id-field');
+    
+        addToCartButtons.forEach(function(button) {
+          button.addEventListener('click', function(event) {
+            event.preventDefault();
+            var productId = event.target.getAttribute('data-product-id');
+            productIdField.value = productId;
+            addToCartForm.submit();
+          });
+        });
+      });
+    </script>
+    
     {% endblock content %}
