@@ -5,9 +5,8 @@ from accounts.models import Profile
 from django.contrib.auth.decorators import login_required
 from .filters import GamesFilter
 from django.views.decorators.http import require_POST
-import datetime
 from .forms import ProfileForm
-
+import datetime
 
 
 def products_list(request):
@@ -99,8 +98,7 @@ def place_the_order(request):
         OrderItem.objects.create(order=order, product=product, quantity=quantity)
         
     request.session['cart'] = {}
-
-    return redirect('products:cart_page')
+    return redirect('products:order', order_id=order.id)
 
 
 @login_required
@@ -108,31 +106,45 @@ def sendm (request):
     cart = request.session.get('cart', {})
     products = Products.objects.filter(id__in=cart.keys())
     total = 0
-    for product in products:
-        quantity = cart[str(product.id)]
-        total += product.price * quantity
-    context = {'total': total}    
-    if request.method == 'GET' and 'send_data' in request.GET:
-        return place_the_order(request)
+    if cart == {}: 
+        return redirect('products:product_list')
     else:
+        for product in products:
+            quantity = cart[str(product.id)]
+            total += product.price * quantity
+        context = {'total': total}    
+        
         return render(request, 'products/sendm.html', context)
     
     
 @login_required
 def checkout (request):
+    cart = request.session.get('cart', {})
     profile = Profile.objects.get(user=request.user)
-    if request.method == 'POST':
-        profile_form = ProfileForm(request.POST, instance=profile)
-        if profile_form.is_valid():
-            profile_form.save()
-            return sendm(request)
-    else: 
-        profile_form = ProfileForm(instance=profile)
-        
+    if cart == {}:
+        return redirect('products:product_list')
+    else:
+        if request.method == 'POST':
+            profile_form = ProfileForm(request.POST, instance=profile)
+            if profile_form.is_valid():
+                profile_form.save()
+                return sendm(request)
+        else: 
+            profile_form = ProfileForm(instance=profile)
+            
+        if request.method == 'GET' and 'send_data' in request.GET:
+            return place_the_order(request)   
     return render(request,'products/checkout_page.html',{'profile_form':profile_form})
-    
-    
 
 
-
-
+@login_required
+def order_d (request, order_id):
+    order = get_object_or_404(Orders, id=order_id)
+    order_items = OrderItem.objects.filter(order=order)
+    context = {'order': order, 'order_items': order_items}
+    if request.user.is_superuser:
+        return render(request, 'products/order.html', context)
+    elif (request.user==order.user):
+        return render(request, 'products/order.html', context)
+    else :
+        return redirect('products:product_list')

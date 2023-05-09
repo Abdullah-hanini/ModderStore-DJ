@@ -1,6 +1,11 @@
 {% extends 'base_generic.html' %}
 {% block title %}All Games - Modder Games{% endblock %}
 {% block content %}
+<!-- Custom Alert -->
+<div id="custom-alert" class="custom-alert">
+  <span class="alert-message">Item added to cart!</span>
+  <span class="alert-close" onclick="closeAlert()">&times;</span>
+</div>
 
     <section class="py-5">
       <div class="container py-5">
@@ -20,7 +25,7 @@
                     <img src="{{ game.img.url }}" class="card-img-top" alt="{{ game.title }}" style="max-height: 300px;">
                     <div class="ref-product-info">
                       <h5  class="ref-name" style="background-color: white; border-bottom-left-radius: var(--bs-card-inner-border-radius); border-bottom-right-radius: var(--bs-card-inner-border-radius); font-size: 1.45rem; color: black;">{{ game.title }}</h5>
-                       <strong class="ref-price ref-on-sale">{{ game.price }} JD</strong>
+                       <h5 class="ref-price ref-on-sale" style="font-weight: bold;">{{ game.price }} JD</h5>
                       <p> </p>
                       
                       <div class="ref-addons">
@@ -29,7 +34,7 @@
                             <input type="hidden" id="product-id-field" name="product_id">
                             <input type="hidden" name="quantity" value="1">
                         </form>
-                        <a class="ref-button preview-toggle" href="#" data-product-id="{{ game.id }}">Add to Cart</a>
+                        <a class="ref-button preview-toggle" href="#" data-product-id="{{ game.id }}" onclick="showAlert()">Add to Cart</a>
                     </div>
                     
                     
@@ -80,6 +85,17 @@
           });
         });
       });
+      function showAlert() {
+        var customAlert = document.getElementById('custom-alert');
+        customAlert.style.display = 'block';
+        setTimeout(closeAlert, 3000);
+      }
+    
+      function closeAlert() {
+        var customAlert = document.getElementById('custom-alert');
+        customAlert.style.display = 'none';
+      }
     </script>
+
     
     {% endblock content %}
