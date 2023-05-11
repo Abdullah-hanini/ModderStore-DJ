@@ -13,11 +13,16 @@
                   <div class="ref-categories"><span class="ref-category">{{game.category}}</span></div><strong class="ref-price ref-on-sale">{{game.price}} JD</strong><span data-reflow-type="add-to-cart" data-reflow-shoppingcart-url="shopping-cart.html" data-reflow-addtocart-text data-reflow-product="589605485" data-reflow-variant="199976733_s">
                       <div class="reflow-add-to-cart ref-product-controls">
                         <div class="ref-variant">
-                          {% for h in hgame %}
-                          <button type="button" onclick="location.href='/product/{{h.slug}}'">
-                              {{ h.title }}
-                          </button>
-                      {% endfor %}
+                      <ul>
+                        {% for h in hgame %}
+                            <li>
+                                <a href="/product/{{h.slug}}">
+                                    {{ h.title }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                        
                       </div>
 
                       <span data-reflow-variant="199976733_s" data-reflow-product="589605485" data-reflow-max-qty="999" data-reflow-quantity="1">
