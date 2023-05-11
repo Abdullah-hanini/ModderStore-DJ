@@ -21,6 +21,8 @@ def imgup (instance,fname) :
     return "games/%s.%s"%(instance.id,extension)
 
 class Products(models.Model):
+    is_hidden = models.BooleanField(default=False)
+    related_products = models.ManyToManyField('self', blank=True, symmetrical=False)
     title = models.CharField(max_length=100)
     img = models.ImageField(upload_to=imgup)
     discription = models.TextField(max_length=100000)
@@ -28,8 +30,6 @@ class Products(models.Model):
     price = models.FloatField(max_length=40)
     stock = models.IntegerField(default=1)
     category = models.ForeignKey('Category',on_delete=models.CASCADE)
-    variants = models.ManyToManyField('ProductVariant')
-
     slug = models.SlugField(blank=True, null=True)
 
     def save(self,*args,**kwargs):
@@ -39,13 +39,7 @@ class Products(models.Model):
     def __str__(self):
         return self.title
 
-class ProductVariant(models.Model):
-    name = models.CharField(max_length=100)
-    value = models.CharField(max_length=100)
-    price= models.FloatField(max_length=40)
 
-    def __str__(self):
-        return f"{self.name}: {self.value}"
 class Category (models.Model):
     name = models.CharField(max_length=30)
 

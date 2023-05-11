@@ -10,8 +10,7 @@ import datetime
 
 
 def products_list(request):
-    products_list = Products.objects.all()
-
+    products_list = Products.objects.filter(is_hidden=False)
     myfilter = GamesFilter(request.GET,queryset=products_list)
     products_list = myfilter.qs
 
@@ -26,7 +25,9 @@ def products_list(request):
 def product_page(request, slug):
     product = get_object_or_404(Products, slug=slug)
     
-    context = {'game': product}
+    hidden_related_products = product.related_products.filter()
+
+    context = {'game': product,'hgame':hidden_related_products}
     return render(request, 'products/product_page.html', context)
 
 
