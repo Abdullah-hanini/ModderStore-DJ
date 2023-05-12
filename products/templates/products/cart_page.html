@@ -102,15 +102,30 @@
                             {% endif %}
                             </div>
                             <div class="ref-footer">
-                                <div class="ref-links"><a href="https://google.com" target="_blank">Terms &amp; Conditions</a><a href="https://google.com" target="_blank">Privacy Policy</a><a href="https://google.com" target="_blank">Refund Policy</a></div>
-                                <div class="ref-totals">
-                                    <div class="ref-subtotal">Subtotal: {{ total }} JD</div>
-                                    <form class="ref-accept-terms" style="display: block;"><label><input id="ref-terms-agreement" type="checkbox" data-state-src="accept-terms" required /><span class="ref-terms-agreement-text"><span>I agree to the </span><a href="https://google.com">Terms &amp; Conditions</a><span>, </span><a href="https://google.com">Privacy Policy</a><span> and </span><a href="https://google.com">Refund Policy</a></span></label></form>
+                              <div class="ref-links"><a href="https://google.com" target="_blank">Terms &amp; Conditions</a><a href="https://google.com" target="_blank">Privacy Policy</a><a href="https://google.com" target="_blank">Refund Policy</a></div>
+                              <div class="ref-totals">
+                                  <div class="ref-subtotal">Subtotal: {{ total }} JD</div>
+                                  <form class="ref-accept-terms" style="display: block;" method="POST" action="{% url 'products:checkout' %}">
+                                    {% csrf_token %}
+                                    <label>
+                                        <input id="ref-terms-agreement" type="checkbox" data-state-src="accept-terms" required />
+                                        <span class="ref-terms-agreement-text">
+                                            <span>I agree to the </span>
+                                            <a href="https://google.com">Terms &amp; Conditions</a>
+                                            <span>, </span>
+                                            <a href="https://google.com">Privacy Policy</a>
+                                            <span> and </span>
+                                            <a href="https://google.com">Refund Policy</a>
+                                        </span>
+                                    </label>
+                                
                                     <div class="ref-row ref-checkout-buttons">
-                                        
-                                        <a class="ref-button ref-standard-checkout-button" href="{% url 'products:checkout' %}">Checkout</a>
-
+                                        <button class="ref-button ref-standard-checkout-button" type="submit">Checkout</button>
                                     </div>
+                                </form>
+                                
+                                  
+                              </div>
                                 </div>
                             </div>
                         </div>
