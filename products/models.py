@@ -24,6 +24,7 @@ class Products(models.Model):
     is_hidden = models.BooleanField(default=False)
     related_products = models.ManyToManyField('self', blank=True, symmetrical=False)
     title = models.CharField(max_length=100)
+    edition = models.CharField(max_length=100)
     img = models.ImageField(upload_to=imgup)
     discription = models.TextField(max_length=100000)
     Sdiscription = models.CharField(max_length=100)
