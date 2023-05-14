@@ -1,11 +1,7 @@
 {% extends 'base_generic.html' %}
 {% block title %}All Games - Modder Games{% endblock %}
 {% block content %}
-<!-- Custom Alert -->
-<div id="custom-alert" class="custom-alert">
-  <span class="alert-message">Item added to cart!</span>
-  <span class="alert-close" onclick="closeAlert()">&times;</span>
-</div>
+
 
     <section class="py-5">
       <div class="container py-5">
@@ -35,11 +31,8 @@
                             <input type="hidden" name="quantity" value="1">
                         </form>
                         <a class="ref-button preview-toggle" href="#" data-product-id="{{ game.id }}" onclick="showAlert()">Add to Cart</a>
+                    </div>                   
                     </div>
-                    
-                    
-                    
-                                        </div>
                   </div>
                 </div>
                 {% endfor %}
@@ -70,32 +63,6 @@
     {% endif %}
 
     </section>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        var addToCartButtons = document.querySelectorAll('.ref-button');
-        var addToCartForm = document.getElementById('add-to-cart-form');
-        var productIdField = document.getElementById('product-id-field');
-    
-        addToCartButtons.forEach(function(button) {
-          button.addEventListener('click', function(event) {
-            event.preventDefault();
-            var productId = event.target.getAttribute('data-product-id');
-            productIdField.value = productId;
-            addToCartForm.submit();
-          });
-        });
-      });
-      function showAlert() {
-        var customAlert = document.getElementById('custom-alert');
-        customAlert.style.display = 'block';
-        setTimeout(closeAlert, 3000);
-      }
-    
-      function closeAlert() {
-        var customAlert = document.getElementById('custom-alert');
-        customAlert.style.display = 'none';
-      }
-    </script>
 
     
     {% endblock content %}

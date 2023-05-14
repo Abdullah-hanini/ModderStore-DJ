@@ -22,6 +22,7 @@ def imgup (instance,fname) :
 
 class Products(models.Model):
     is_hidden = models.BooleanField(default=False)
+    is_ent = models.BooleanField(default=False)
     related_products = models.ManyToManyField('self', blank=True, symmetrical=False)
     title = models.CharField(max_length=100)
     edition = models.CharField(max_length=100)

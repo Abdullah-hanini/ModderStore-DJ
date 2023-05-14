@@ -1,0 +1,114 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container py-5">
+      <div class="row mb-4 mb-lg-5">
+
+      <div style="background: url(https://bootstrapious.com/i/snippets/sn-static-header/background.jpg); border-top-left-radius: 15px;
+      border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px;" class="jumbotron bg-cover text-white" >
+        <div class="container py-5 text-center">
+            <h1 class="display-4 font-weight-bold">Bootstrap static header</h1>
+            <p class="font-italic mb-0">Using simple jumbotron-style component, create a nice Bootstrap 4 header with a background image.</p>
+            <p class="font-italic">Snippe by
+                <a href="https://bootstrapious.com" class="text-white">
+                    <u>Bootstrapious</u>
+                </a>
+            </p>
+            <a href="#" role="button" class="btn btn-primary px-5">See All Features</a>
+        </div>
+    </div>
+    </div>
+      <div class="row mb-4 mb-lg-5">
+        <div class="col-md-8 col-xl-6 text-left" style="padding-left: 35px;">
+          <h2 class="fw-bold">Hot Games</h2>
+        </div>
+      </div>
+      <div class="row mx-auto">
+        <div class="col">
+          <div class="container">
+            <div class="row">
+              {% for game in games %}
+              <div class="col-sm-6 col-lg-4 col-xl-3 mb-4" style="text-align: center;">
+                <div class="card" style="max-width: 250px;">
+                <a class="ref-product" href="/product/{{game.slug}}">
+                  <img src="{{ game.img.url }}" class="card-img-top" alt="{{ game.title }}" style="max-height: 300px;">
+                  <div class="ref-product-info">
+                    <h5  class="ref-name" style="background-color: white; border-bottom-left-radius: var(--bs-card-inner-border-radius); border-bottom-right-radius: var(--bs-card-inner-border-radius); font-size: 1.45rem; color: black;">{{ game.title }}</h5>
+                     <h5 class="ref-price ref-on-sale" style="font-weight: bold;">{{ game.price }} JD</h5>
+                    <p> </p>
+                    
+                    <div class="ref-addons">
+                      <form id="add-to-cart-form" style="display: none;" method="POST" action="{% url 'products:add_to_cart' %}">
+                          {% csrf_token %}
+                          <input type="hidden" id="product-id-field" name="product_id">
+                          <input type="hidden" name="quantity" value="1">
+                      </form>
+                      <a class="ref-button preview-toggle" href="#" data-product-id="{{ game.id }}" onclick="showAlert()">Add to Cart</a>
+                  </div>                   
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container py-5">
+        <div class="row mb-4 mb-lg-5">
+          <div class="col-md-8 col-xl-6 text-left" style="padding-left: 35px;">
+            <h2 class="fw-bold">Entertainment</h2>
+          </div>
+        </div>
+        <div class="row mx-auto">
+          <div class="col">
+            <div class="container">
+              <div class="row">
+                {% for game in ent %}
+                <div class="col-sm-6 col-lg-4 col-xl-3 mb-4" style="text-align: center;">
+                  <div class="card" style="max-width: 250px;">
+                  <a class="ref-product" href="/product/{{game.slug}}">
+                    <img src="{{ game.img.url }}" class="card-img-top" alt="{{ game.title }}" style="max-height: 300px;">
+                    <div class="ref-product-info">
+                      <h5  class="ref-name" style="background-color: white; border-bottom-left-radius: var(--bs-card-inner-border-radius); border-bottom-right-radius: var(--bs-card-inner-border-radius); font-size: 1.45rem; color: black;">{{ game.title }}</h5>
+                       <h5 class="ref-price ref-on-sale" style="font-weight: bold;">{{ game.price }} JD</h5>
+                      <p> </p>
+                      
+                      <div class="ref-addons">
+                        <form id="add-to-cart-form" style="display: none;" method="POST" action="{% url 'products:add_to_cart' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="product-id-field" name="product_id">
+                            <input type="hidden" name="quantity" value="1">
+                        </form>
+                        <a class="ref-button preview-toggle" href="#" data-product-id="{{ game.id }}" onclick="showAlert()">Add to Cart</a>
+                    </div>                   
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          var addToCartButtons = document.querySelectorAll('.ref-button');
+          var addToCartForm = document.getElementById('add-to-cart-form');
+          var productIdField = document.getElementById('product-id-field');
+      
+          addToCartButtons.forEach(function(button) {
+            button.addEventListener('click', function(event) {
+              event.preventDefault();
+              var productId = event.target.getAttribute('data-product-id');
+              productIdField.value = productId;
+              addToCartForm.submit();
+            });
+          });
+        });
+    </script>
+      {% endblock content %}
+

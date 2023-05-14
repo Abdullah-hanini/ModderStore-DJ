@@ -10,7 +10,7 @@ import datetime
 
 
 def products_list(request):
-    products_list = Products.objects.filter(is_hidden=False)
+    products_list = Products.objects.filter(is_hidden=False,is_ent=False)
     myfilter = GamesFilter(request.GET,queryset=products_list)
     products_list = myfilter.qs
 
@@ -22,6 +22,17 @@ def products_list(request):
 
     return render(request,'products/products_list.html',context)
 
+def search(request):
+    products_list = Products.objects.all()
+    myfilter = GamesFilter(request.GET,queryset=products_list)
+    products_list = myfilter.qs
+
+    paginator = Paginator(products_list, 12)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    context = {'games':page_obj ,'myfilter':myfilter}
+    return render(request,'products/products_list.html',context)
+    
 def product_page(request, slug):
     product = get_object_or_404(Products, slug=slug)
     
@@ -54,7 +65,7 @@ def add_to_cart(request):
         cart[product_id] = cart.get(product_id, 0) + quantity
         request.session['cart'] = cart
 
-    return redirect('products:product_list')
+    return redirect('products:cart_page')
 
 def remove_from_cart(request, product_id):
     cart = request.session.get('cart', {})
