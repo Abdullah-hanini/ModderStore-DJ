@@ -2,67 +2,46 @@
 {% block title %}Send Money - Modder Games{% endblock %}
 {% load static %}
 {% block content %}
-
-
-
-
-
-
-<section class="py-5">
-    <div class="container py-5">
-      <div class="row mb-4 mb-lg-5">
-        <div class="col-md-8 col-xl-6 text-center mx-auto">
-          <h2 class="fw-bold text-success mb-2">Order : {{ order.id }}</h2>
-        </div>
+<div class="page-heading header-text">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h3>Order : {{ order.id }}</h3>
       </div>
+    </div>
+  </div>
+</div>
+   <section class="py-5">
+    <div class="containera py-5">
       <div class="row d-flex justify-content-center">
         <div class="col-md-6 col-xl-4">
-          <div class="card1">
-           
-              <div class="card-body text-center d-flex flex-column align-items-center">
+            <div class="card-body text-center d-flex flex-column align-items-center">
 
-            </br>
             <div class="mb-3">
-                    <h3>Status</h3>
-                    <h5 class="fw-bold text-success mb-2">
-                        {{order.ostatus}}</h5>
-                  
-                        <div class="mb-3">
-                          <h3>Games</h3>
-                          {% for i in order_items %}
-                          <h5 class="fw-bold text-success mb-2" style="text-align: center;">
-                              {{i.product}}</h5>
-                          {% endfor %}
-                      </div>
-
+              <h3>Status</h3>
+              <h5 class="fw-bold text-success mb-2">
+                  {{order.ostatus}}</h5>
+            
+                  <div class="mb-3">
+                    <h3>Games</h3>
+                    {% for i in order_items %}
+                    <h5 class="fw-bold text-success mb-2" style="text-align: center;">
+                        {{i.product}}</h5>
+                    {% endfor %}
                 </div>
+          </div>
+      <div class="mb-3">
+              <h3>Total</h3>
+              <h5 class="fw-bold text-success mb-2">{{order.total}} JD</h5>              
+          </div>
             <div class="mb-3">
-                    <h3>Total</h3>
-                    <h5 class="fw-bold text-success mb-2">
-                        {{order.total}} JD</h5>
-                    
-                </div>
-
-
-                <div class="mb-3">
-                  <h3>Your Order</h3>
-                  <h6 class="fw-bold text-success mb-2">
-                    <pre style="text-align: left;">{{order.pdiscrption}}</pre></h6>
-                      
-                
+            <h3>Your Order</h3>
+            <h6 class="fw-bold text-success mb-2">
+              <pre style="text-align: left;">{{order.pdiscrption}}</pre></h6>
               </div>
-
-
-
-          <br>
-            </div>
-          </br>
             </div>
           </div>
         </div>
-
       </div>
-    </div>
   </section>
-
 {% endblock content %}

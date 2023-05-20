@@ -1,114 +1,94 @@
 {% extends "base_generic.html" %}
 {% load static %}
-
 {% block content %}
-<section class="py-5">
-    <div class="container py-5">
-      <div class="row mb-4 mb-lg-5">
+<div class="main-banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 align-self-center">
+        <div class="caption header-text">
+          <h6>Welcome to Modder Games</h6>
+          <h2>BEST GAMING SITE EVER!</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <div class="search-input">
+            <form id="search" method="get" action="{% url 'product:search' %}">
+              <input type="text" placeholder="Type Something" id='searchText' name="title" onkeypress="handle" />
+              <button role="button">Search Now</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 offset-lg-2">
+        <div class="right-image">
+          <img src="{% static 'assets/images/banner-image.jpg' %}" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section trending">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="section-heading">
+          <h6>Trending</h6>
+          <h2>Trending Games</h2>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="main-button">
+          <a href="{% url 'product:product_list' %}">View All</a>
+        </div>
+      </div>
+      {% for game in games %}
+      <div class="col-lg-3 col-md-6">
+        <div class="item">
+          <div class="thumb">
+            <a href="/product/{{game.slug}}"><img src="{{ game.img.url }}" alt=""></a>
+            <span class="price">{{ game.price }} JD</span>
+          </div>
+          <div class="down-content">
+            <span class="category">Action</span>
+            <h4>{{ game.title }}</h4>
+            <a href="/product/{{game.slug}}"><i class="fa fa-shopping-bag" style="position: relative; bottom: -9px;"></i></a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<div class="section most-played">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="section-heading">
+          <h2>Entertainment</h2>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="main-button">
+          <a href="shop.html">View All</a>
+        </div>
+      </div>
+      {% for game in ent %}
+      <div class="col-lg-2 col-md-6 col-sm-6">
+        <div class="item">
+          <div class="thumb">
+            <a href="/product/{{game.slug}}"><img src="{{ game.img.url }}" alt=""></a>
+          </div>
+          <div class="down-content">
+              <span class="category">Adventure</span>
+              <h4>{{ game.title }}</h4>
+              <a href="/product/{{game.slug}}">Buy</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
 
-      <div style="background: url(https://bootstrapious.com/i/snippets/sn-static-header/background.jpg); border-top-left-radius: 15px;
-      border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px;" class="jumbotron bg-cover text-white" >
-        <div class="container py-5 text-center">
-            <h1 class="display-4 font-weight-bold">Bootstrap static header</h1>
-            <p class="font-italic mb-0">Using simple jumbotron-style component, create a nice Bootstrap 4 header with a background image.</p>
-            <p class="font-italic">Snippe by
-                <a href="https://bootstrapious.com" class="text-white">
-                    <u>Bootstrapious</u>
-                </a>
-            </p>
-            <a href="#" role="button" class="btn btn-primary px-5">See All Features</a>
-        </div>
-    </div>
-    </div>
-      <div class="row mb-4 mb-lg-5">
-        <div class="col-md-8 col-xl-6 text-left" style="padding-left: 35px;">
-          <h2 class="fw-bold">Hot Games</h2>
-        </div>
-      </div>
-      <div class="row mx-auto">
-        <div class="col">
-          <div class="container">
-            <div class="row">
-              {% for game in games %}
-              <div class="col-sm-6 col-lg-4 col-xl-3 mb-4" style="text-align: center;">
-                <div class="card" style="max-width: 250px;">
-                <a class="ref-product" href="/product/{{game.slug}}">
-                  <img src="{{ game.img.url }}" class="card-img-top" alt="{{ game.title }}" style="max-height: 300px;">
-                  <div class="ref-product-info">
-                    <h5  class="ref-name" style="background-color: white; border-bottom-left-radius: var(--bs-card-inner-border-radius); border-bottom-right-radius: var(--bs-card-inner-border-radius); font-size: 1.45rem; color: black;">{{ game.title }}</h5>
-                     <h5 class="ref-price ref-on-sale" style="font-weight: bold;">{{ game.price }} JD</h5>
-                    <p> </p>
-                    
-                    <div class="ref-addons">
-                      <form id="add-to-cart-form" style="display: none;" method="POST" action="{% url 'products:add_to_cart' %}">
-                          {% csrf_token %}
-                          <input type="hidden" id="product-id-field" name="product_id">
-                          <input type="hidden" name="quantity" value="1">
-                      </form>
-                      <a class="ref-button preview-toggle" href="#" data-product-id="{{ game.id }}" onclick="showAlert()">Add to Cart</a>
-                  </div>                   
-                  </div>
-                </div>
-              </div>
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="container py-5">
-        <div class="row mb-4 mb-lg-5">
-          <div class="col-md-8 col-xl-6 text-left" style="padding-left: 35px;">
-            <h2 class="fw-bold">Entertainment</h2>
-          </div>
-        </div>
-        <div class="row mx-auto">
-          <div class="col">
-            <div class="container">
-              <div class="row">
-                {% for game in ent %}
-                <div class="col-sm-6 col-lg-4 col-xl-3 mb-4" style="text-align: center;">
-                  <div class="card" style="max-width: 250px;">
-                  <a class="ref-product" href="/product/{{game.slug}}">
-                    <img src="{{ game.img.url }}" class="card-img-top" alt="{{ game.title }}" style="max-height: 300px;">
-                    <div class="ref-product-info">
-                      <h5  class="ref-name" style="background-color: white; border-bottom-left-radius: var(--bs-card-inner-border-radius); border-bottom-right-radius: var(--bs-card-inner-border-radius); font-size: 1.45rem; color: black;">{{ game.title }}</h5>
-                       <h5 class="ref-price ref-on-sale" style="font-weight: bold;">{{ game.price }} JD</h5>
-                      <p> </p>
-                      
-                      <div class="ref-addons">
-                        <form id="add-to-cart-form" style="display: none;" method="POST" action="{% url 'products:add_to_cart' %}">
-                            {% csrf_token %}
-                            <input type="hidden" id="product-id-field" name="product_id">
-                            <input type="hidden" name="quantity" value="1">
-                        </form>
-                        <a class="ref-button preview-toggle" href="#" data-product-id="{{ game.id }}" onclick="showAlert()">Add to Cart</a>
-                    </div>                   
-                    </div>
-                  </div>
-                </div>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          var addToCartButtons = document.querySelectorAll('.ref-button');
-          var addToCartForm = document.getElementById('add-to-cart-form');
-          var productIdField = document.getElementById('product-id-field');
-      
-          addToCartButtons.forEach(function(button) {
-            button.addEventListener('click', function(event) {
-              event.preventDefault();
-              var productId = event.target.getAttribute('data-product-id');
-              productIdField.value = productId;
-              addToCartForm.submit();
-            });
-          });
-        });
-    </script>
+
+
       {% endblock content %}
 

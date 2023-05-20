@@ -1,73 +1,119 @@
 {% extends 'base_generic.html' %}
 {% block title %}{{game.title}} - Modder Games{% endblock %}
 {% block content %}
-    <section class="py-5">
-      <div class="container py-5">
-        <div data-reflow-type="product" data-bss-dynamic-product data-bss-dynamic-product-param="product" data-reflow-shoppingcart-url="shopping-cart.html">
-          <div class="reflow-product">
-              <div class="ref-media">
-                  <div class="ref-preview"><img class="ref-image active" src="{{game.img.url}}" data-reflow-preview-type="image" /></div>
+        <div class="page-heading header-text">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                <h3>{{game.title}}</h3>
+                <span class="breadcrumb"><a href="{% url 'home:homepage' %}">Home</a>  >  <a href="{% url 'product:product_list' %}">Games</a>  >  {{game.title}}</span>
               </div>
-              <div class="ref-product-data">
-                  <h2 class="ref-name">{{game.title}}</h2>
-                  <div class="ref-categories"><span class="ref-category">{{game.category}}</span></div><strong class="ref-price ref-on-sale">{{game.price}} JD</strong><span data-reflow-type="add-to-cart" data-reflow-shoppingcart-url="shopping-cart.html" data-reflow-addtocart-text data-reflow-product="589605485" data-reflow-variant="199976733_s">
-                      <div class="reflow-add-to-cart ref-product-controls">
-                        <div class="ref-variant">
-                      <ul>
-                        {% for h in hgame %}
-                            <li>
-                                <a href="/product/{{h.slug}}">
-                                    {{ h.edition }}
-                                </a>
-                            </li>
-                        {% endfor %}
-                        </ul>
-                        
-                      </div>
-
-                      <span data-reflow-variant="199976733_s" data-reflow-product="589605485" data-reflow-max-qty="999" data-reflow-quantity="1">
-
-                                    <form method="post" action="{% url 'products:add_to_cart' %}">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="product_id" value="{{ game.id }}">
-                                      
-                                        <div class="ref-quantity-widget">
-                                          <div class="ref-decrease"><span></span></div>
-                                          <input  type="text" name="quantity" style="width: 2.9em;" value="1" />
-                                          <div class="ref-increase"><span></span></div>
-                                        </div>
-                                      
-                                        <button type="submit" class="btn btn-primary">Add to cart</button>
-                                      </form>
-                                      
-                          
-                        
-                      </div>
-                  </span>
-                  <div class="ref-description">{{game.discription}}</div>
-              </div>
+            </div>
           </div>
-      </div>
-      </div>
-    </section>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-          const decreaseBtn = document.querySelector(".ref-decrease");
-          const increaseBtn = document.querySelector(".ref-increase");
-          const quantityInput = document.querySelector("input[name='quantity']");
-        
-          decreaseBtn.addEventListener("click", function() {
-            let currentValue = parseInt(quantityInput.value);
-            if (currentValue > 1) {
-              quantityInput.value = currentValue - 1;
-            }
-          });
-        
-          increaseBtn.addEventListener("click", function() {
-            let currentValue = parseInt(quantityInput.value);
-            quantityInput.value = currentValue + 1;
-          });
-        });
-        </script>
-        
+        </div>
+      
+        <div class="single-product section">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="left-image">
+                  <img src="{{game.img.url}}" alt="">
+                </div>
+              </div>
+              <div class="col-lg-6 align-self-center">
+                <h4>{{game.title}}</h4>
+                <span class="price">{{game.price}}</span>
+                <p>{{game.Sdiscription}}</p>
+                <div class="section trending">
+                <ul class="trending-filter" style="text-align: left; margin-bottom: 25px;">
+                  {% for h in hgame %}
+                  <li>
+                    <a href="/product/{{h.slug}}">
+                        {{ h.edition }}
+                    </a>
+                </li>
+                  {% endfor %}
+                </ul>
+                </div>
+                <form id="qty" method="post" action="{% url 'products:add_to_cart' %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="product_id" value="{{ game.id }}">
+                  <input type="text" class="form-control" name=
+                  'quantity' id="1" aria-describedby="quantity" placeholder="1" required>
+                  <button type="submit"><i class="fa fa-shopping-bag"></i> ADD TO CART</button>
+                </form>
+                <ul>
+                  <li><span>Category:</span> {{game.ca}}</li>
+                </ul>
+              </div>
+              <div class="col-lg-12">
+                <div class="sep"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="more-info">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="tabs-content">
+                  <div class="row">
+                    <div class="nav-wrapper ">
+                      <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                          <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">Description</button>
+                        </li>
+                        <!--<li class="nav-item" role="presentation">
+                          <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Reviews (3)</button>
+                        </li>-->
+                      </ul>
+                    </div>              
+                    <div class="tab-content" id="myTabContent">
+                      <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                        <p>{{game.discription}}</p>
+                      </div>
+                      <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                        <p>Coloring book air plant shabby chic, crucifix normcore raclette cred swag artisan activated charcoal. PBR&B fanny pack pok pok gentrify truffaut kitsch helvetica jean shorts edison bulb poutine next level humblebrag la croix adaptogen. <br><br>Hashtag poke literally locavore, beard marfa kogi bruh artisan succulents seitan tonx waistcoat chambray taxidermy. Same cred meggings 3 wolf moon lomo irony cray hell of bitters asymmetrical gluten-free art party raw denim chillwave tousled try-hard succulents street art.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="section trending">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="section-heading">
+                  <h6>Related Games</h6>
+                  <h2>Related Games</h2>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="main-button">
+                  <a href="{% url 'product:product_list' %}">View All</a>
+                </div>
+              </div>
+              {% for game in games %}
+              <div class="col-lg-3 col-md-6">
+                <div class="item">
+                  <div class="thumb">
+                    <a href="/product/{{game.slug}}"><img src="{{ game.img.url }}" alt=""></a>
+                    <span class="price">{{ game.price }} JD</span>
+                  </div>
+                  <div class="down-content">
+                    <span class="category">Action</span>
+                    <h4>{{ game.title }}</h4>
+                    <a href="/product/{{game.slug}}"><i class="fa fa-shopping-bag" style="position: relative; bottom: -9px;"></i></a>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
     {% endblock content %}

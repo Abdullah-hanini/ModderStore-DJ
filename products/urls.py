@@ -16,6 +16,7 @@ urlpatterns = [
     path('order/<int:order_id>/', views.order_d, name='order'),
     path('checkout/', views.checkout, name='checkout'),
     path('sendm/', views.sendm, name='sendm'),
+    path('<str:category>/', views.products_list,name='product_list'),
 
 
 ]

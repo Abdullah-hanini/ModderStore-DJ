@@ -1,6 +1,6 @@
 from django.shortcuts import render ,get_object_or_404 , redirect
 from django.core.paginator import Paginator
-from .models import Products , Orders , OrderItem
+from .models import Products , Orders , OrderItem , Category
 from accounts.models import Profile
 from django.contrib.auth.decorators import login_required
 from .filters import GamesFilter
@@ -9,36 +9,50 @@ from .forms import ProfileForm
 import datetime
 
 
-def products_list(request):
-    products_list = Products.objects.filter(is_hidden=False,is_ent=False)
-    myfilter = GamesFilter(request.GET,queryset=products_list)
+def products_list(request, category=None):
+    products_list = Products.objects.filter(is_hidden=False)
+
+    if category is not None:
+        category_obj = get_object_or_404(Category, name=category)
+        products_list = products_list.filter(category=category_obj)
+
+    myfilter = GamesFilter(request.GET, queryset=products_list)
     products_list = myfilter.qs
 
     paginator = Paginator(products_list, 12)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    context = {'games':page_obj ,'myfilter':myfilter}
+
+    context = {'games': page_obj, 'myfilter': myfilter, 'category': category}
+
+    return render(request, 'products/products_list.html', context)
 
 
-    return render(request,'products/products_list.html',context)
 
-def search(request):
+def search(request, category=None):
     products_list = Products.objects.all()
-    myfilter = GamesFilter(request.GET,queryset=products_list)
+    if category is not None:
+        category_obj = get_object_or_404(Category, name=category)
+        products_list = products_list.filter(category=category_obj)
+
+    myfilter = GamesFilter(request.GET, queryset=products_list)
     products_list = myfilter.qs
 
     paginator = Paginator(products_list, 12)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    context = {'games':page_obj ,'myfilter':myfilter}
-    return render(request,'products/products_list.html',context)
+
+    context = {'games': page_obj, 'myfilter': myfilter, 'category': category}
+
+    return render(request, 'products/products_list.html', context)
     
 def product_page(request, slug):
     product = get_object_or_404(Products, slug=slug)
-    
+    products_list = Products.objects.filter(is_hidden=False,is_ent=False)
     hidden_related_products = product.related_products.filter()
-
-    context = {'game': product,'hgame':hidden_related_products}
+    paginator = Paginator(products_list, 4)
+    rgames = paginator.get_page(1)
+    context = {'game': product,'hgame':hidden_related_products ,'games':rgames}
     return render(request, 'products/product_page.html', context)
 
 
