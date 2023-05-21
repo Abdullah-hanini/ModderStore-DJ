@@ -32,6 +32,7 @@ CSRF_TRUSTED_ORIGINS = ['https://45a4-178-77-189-78.ngrok-free.app']
 
 INSTALLED_APPS = [
     'accounts',
+    'rest_framework',    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,8 +42,6 @@ INSTALLED_APPS = [
     'home',
     'products',
     'django_filters',
-
-
 ]
 
 MIDDLEWARE = [

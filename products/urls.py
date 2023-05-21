@@ -2,6 +2,8 @@
 from django.urls import include, path
 
 from . import views
+from . import api
+
 app_name = 'products'
 
 urlpatterns = [
@@ -18,5 +20,6 @@ urlpatterns = [
     path('sendm/', views.sendm, name='sendm'),
     path('<str:category>/', views.products_list,name='product_list'),
 
+    path('api/list', api.product_list,name='products_api'),
 
 ]
