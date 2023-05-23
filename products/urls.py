@@ -21,5 +21,9 @@ urlpatterns = [
     path('<str:category>/', views.products_list,name='product_list'),
 
     path('api/list', api.product_list,name='products_api'),
+    path('api/list/<int:id>', api.product_view.as_view() ,name='productsview_api'),
+    path('api/order/<int:id>', api.orders_view.as_view() ,name='orderview_api'),
+    path('api/order/', api.orders.as_view() ,name='orders_api'),
+
 
 ]
